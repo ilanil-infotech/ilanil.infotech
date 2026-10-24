@@ -32,7 +32,7 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ language }) => {
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight [text-wrap:balance]">
             {language === 'ta'
-              ? 'நேரடி தொடர்பு, முழு உரிமை & நியாயமான கட்டணம்.'
+              ? 'நேரடி தொடர்பு, முழு உரிமை & நம்பகமான சேவை.'
               : 'Engineering built on trust, transparency, and ownership.'}
           </h2>
         </div>

@@ -10,7 +10,6 @@ interface ContactSectionProps {
 export const ContactSection: React.FC<ContactSectionProps> = ({ language, initialSubject }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [budget, setBudget] = useState('₹25,000 - ₹60,000');
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
@@ -145,22 +144,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language, initia
                   placeholder={language === 'ta' ? 'எ.கா. yourname@gmail.com' : 'e.g. name@company.com'}
                   className="w-full px-3.5 py-2.5 bg-[#0d131f] border border-slate-800 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                 />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1.5">
-                  {language === 'ta' ? 'தோராயமான பட்ஜெட் (Budget Range)' : 'Estimated Budget Range'}
-                </label>
-                <select
-                  value={budget}
-                  onChange={(e) => setBudget(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-[#0d131f] border border-slate-800 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-                >
-                  <option value="₹25,000 - ₹60,000">₹25,000 – ₹60,000 ({language === 'ta' ? 'ஆரம்ப நிலை / எளிய மென்பொருள்' : 'Starter MVP'})</option>
-                  <option value="₹60,000 - ₹1,50,000">₹60,000 – ₹1,50,000 ({language === 'ta' ? 'முழுமையான வெப் & மொபைல் ஆப்' : 'Full Web & Mobile Suite'})</option>
-                  <option value="₹1,50,000+">₹1,50,000+ ({language === 'ta' ? 'பெரிய அளவிலான கிளவுட் சாஸ் (SaaS)' : 'Enterprise Scale'})</option>
-                  <option value="Discussion Needed">{language === 'ta' ? 'பேசி முடிவெடுக்கலாம் (Need Discussion)' : 'Discussion Needed'}</option>
-                </select>
               </div>
 
               <div>

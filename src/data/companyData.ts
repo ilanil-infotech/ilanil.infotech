@@ -136,8 +136,8 @@ export const WHY_CHOOSE_US_EN = [
     desc: 'We handle everything from UI design and mobile coding to cloud server setup and launch.',
   },
   {
-    title: 'Transparent & Local Value',
-    desc: 'Fair pricing, no hidden costs, rapid sprint milestones, and dedicated post-launch support.',
+    title: 'Transparent Milestones & Delivery',
+    desc: 'Clear scope, milestone-based delivery, rapid sprints, and dedicated post-launch support.',
   },
 ];
 
@@ -155,8 +155,8 @@ export const WHY_CHOOSE_US_TA = [
     desc: 'UI டிசைன், மொபைல் ஆப், சர்வர் ஹோஸ்டிங் என அனைத்தையும் நாங்களே பொறுப்பேற்று செய்கிறோம்.',
   },
   {
-    title: 'வெளிப்படையான விலை & நம்பகத்தன்மை',
-    desc: 'மறைமுக கட்டணங்கள் இல்லை; குறிப்பிட்ட காலத்தில் செய்து தரும் விரைவான பணிமுறை.',
+    title: 'வெளிப்படையான பணிமுறை & நம்பகத்தன்மை',
+    desc: 'தெளிவான கட்டமைப்பு, குறிப்பிட்ட காலத்தில் செய்து தரும் விரைவான பணிமுறை மற்றும் நேரடி ஆதரவு.',
   },
 ];
 
