@@ -1,19 +1,25 @@
 import React from 'react';
-import { WHY_CHOOSE_US } from '../data/companyData';
-import { ShieldCheck, Layers, Cpu, MessageSquare } from 'lucide-react';
+import { WHY_CHOOSE_US_EN, WHY_CHOOSE_US_TA } from '../data/companyData';
+import { ShieldCheck, MessageSquare, Layers, Sparkles } from 'lucide-react';
 
-export const WhyChooseUs: React.FC = () => {
+interface WhyChooseUsProps {
+  language: 'en' | 'ta';
+}
+
+export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ language }) => {
+  const items = language === 'ta' ? WHY_CHOOSE_US_TA : WHY_CHOOSE_US_EN;
+
   const getIcon = (idx: number) => {
     switch (idx) {
       case 0:
         return <ShieldCheck className="w-5 h-5 text-blue-400" />;
       case 1:
-        return <Layers className="w-5 h-5 text-indigo-400" />;
+        return <MessageSquare className="w-5 h-5 text-emerald-400" />;
       case 2:
-        return <Cpu className="w-5 h-5 text-cyan-400" />;
+        return <Layers className="w-5 h-5 text-indigo-400" />;
       case 3:
       default:
-        return <MessageSquare className="w-5 h-5 text-emerald-400" />;
+        return <Sparkles className="w-5 h-5 text-amber-400" />;
     }
   };
 
@@ -22,15 +28,17 @@ export const WhyChooseUs: React.FC = () => {
       <div className="max-w-6xl mx-auto px-6">
         <div className="max-w-2xl mb-12">
           <div className="text-xs font-semibold tracking-wider text-blue-400 uppercase mb-2">
-            Why Work With Us
+            {language === 'ta' ? 'நம்பகத்தன்மை & வெளிப்படைத்தன்மை' : 'Why Work With Us'}
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight [text-wrap:balance]">
-            Engineering built on trust, transparency, and ownership.
+            {language === 'ta'
+              ? 'நேரடி தொடர்பு, முழு உரிமை & நியாயமான கட்டணம்.'
+              : 'Engineering built on trust, transparency, and ownership.'}
           </h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {WHY_CHOOSE_US.map((item, idx) => (
+          {items.map((item, idx) => (
             <div
               key={idx}
               className="p-6 rounded-xl border border-slate-800 bg-[#111726] flex flex-col justify-between"

@@ -2,7 +2,7 @@
 
 @layer base {
   html {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Tamil', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     scroll-behavior: smooth;
   }
 
@@ -11,19 +11,7 @@
   }
 }
 
-/* Custom subtle glass and border utilities */
+/* Custom subtle surface tokens */
 .hairline-border {
   border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.hairline-border-hover:hover {
-  border-color: rgba(59, 130, 246, 0.4);
-}
-
-.bg-surface-dark {
-  background-color: #111827;
-}
-
-.bg-surface-elevated {
-  background-color: #161f30;
 }

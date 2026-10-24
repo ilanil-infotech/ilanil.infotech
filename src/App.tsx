@@ -7,12 +7,18 @@ import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ServicesSection } from './components/ServicesSection';
+import { TamilNaduSolutions } from './components/TamilNaduSolutions';
 import { WhyChooseUs } from './components/WhyChooseUs';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 
 export default function App() {
+  const [language, setLanguage] = useState<'en' | 'ta'>('en');
   const [selectedService, setSelectedService] = useState<string>('');
+
+  const toggleLanguage = () => {
+    setLanguage(prev => (prev === 'en' ? 'ta' : 'en'));
+  };
 
   const scrollToContact = () => {
     const contactElem = document.getElementById('contact');
@@ -28,25 +34,44 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#0b0f17] text-slate-100 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
-      {/* Clean Header */}
-      <Header onContactClick={scrollToContact} />
+      {/* Header with Bilingual English / தமிழ் Toggle */}
+      <Header
+        language={language}
+        onToggleLanguage={toggleLanguage}
+        onContactClick={scrollToContact}
+      />
 
       <main className="flex-1">
         {/* Simple Punchy Hero */}
-        <Hero onContactClick={scrollToContact} />
+        <Hero
+          language={language}
+          onContactClick={scrollToContact}
+        />
 
-        {/* 4 Core Services */}
-        <ServicesSection onSelectService={handleSelectService} />
+        {/* 4 Core Engineering Services */}
+        <ServicesSection
+          language={language}
+          onSelectService={handleSelectService}
+        />
 
-        {/* Why Choose Us */}
-        <WhyChooseUs />
+        {/* Tamil Nadu Business Solutions Showcase */}
+        <TamilNaduSolutions
+          language={language}
+          onSelectSolution={handleSelectService}
+        />
 
-        {/* Straightforward Contact Form & Email */}
-        <ContactSection initialSubject={selectedService} />
+        {/* Why Choose Us & Trust Pillars */}
+        <WhyChooseUs language={language} />
+
+        {/* Straightforward Contact Form & Direct Email */}
+        <ContactSection
+          language={language}
+          initialSubject={selectedService}
+        />
       </main>
 
       {/* Clean Footer */}
-      <Footer />
+      <Footer language={language} />
     </div>
   );
 }
