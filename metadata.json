@@ -1,0 +1,8 @@
+{
+  "name": "Ilanil Infotech - Software, Mobile APIs & AI Solutions",
+  "description": "Ilanil Infotech builds and hosts complete web applications, mobile APIs, cloud infrastructure, and AI technology solutions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
