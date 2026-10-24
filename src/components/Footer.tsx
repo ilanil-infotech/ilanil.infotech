@@ -56,6 +56,15 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
             <a href="#contact" className="hover:text-slate-300 transition-colors">
               {language === 'ta' ? 'தொடர்புக்கு' : 'Contact'}
             </a>
+            <a
+              href="social-post.jpg"
+              download="ilanil-infotech-social-post.jpg"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:text-blue-300 transition-colors font-medium underline underline-offset-4"
+            >
+              {language === 'ta' ? 'போஸ்டர் படம் தரவிறக்க' : 'Download Social Post Image'}
+            </a>
           </div>
         </div>
       </div>
