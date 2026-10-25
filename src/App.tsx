@@ -33,8 +33,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0b0f17] text-slate-100 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
-      {/* Header with Bilingual English / தமிழ் Toggle */}
+    <div className="min-h-screen bg-[#fafdfb] text-slate-800 flex flex-col font-sans selection:bg-emerald-600 selection:text-white">
+      {/* Header with Ilanil Logo and Bilingual English / தமிழ் Toggle */}
       <Header
         language={language}
         onToggleLanguage={toggleLanguage}
@@ -42,7 +42,7 @@ export default function App() {
       />
 
       <main className="flex-1">
-        {/* Simple Punchy Hero */}
+        {/* Hero with 'A new light in technology' Nature-Tech Aesthetic */}
         <Hero
           language={language}
           onContactClick={scrollToContact}
@@ -70,7 +70,7 @@ export default function App() {
         />
       </main>
 
-      {/* Clean Footer */}
+      {/* Deep Botanical Nature-Tech Footer */}
       <Footer language={language} />
     </div>
   );
