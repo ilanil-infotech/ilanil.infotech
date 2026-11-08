@@ -1,185 +1,228 @@
-import React, { useState, useEffect } from 'react';
-import { Mail, Send, CheckCircle2, MapPin } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, MapPin, Copy, Check, ExternalLink, MessageSquare, Clock, ShieldCheck } from 'lucide-react';
 import { COMPANY_INFO } from '../data/companyData';
+import { VisionGlassCard } from './VisionGlassCard';
+import { FloatingBadge } from './FloatingBadge';
 
 interface ContactSectionProps {
   language: 'en' | 'ta';
   initialSubject?: string;
 }
 
+/**
+ * ContactSection
+ * 
+ * Apple VisionOS Crystalline Frosted Glass Contact Hub:
+ * - Direct Email Consultation (no mock form/APIs)
+ * - Click-to-email with prefilled subject & body
+ * - One-click Copy Email with tactile feedback
+ * - 3D spatial tilt and crystalline glass edges
+ */
 export const ContactSection: React.FC<ContactSectionProps> = ({ language, initialSubject }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    if (initialSubject) {
-      if (language === 'ta') {
-        setMessage(`வணக்கம் இளநிலா இன்போடெக், எனக்கு இது குறித்த மென்பொருள் தேவை: ${initialSubject}.\n\nதிட்டம் பற்றிய குறிப்புகள்: `);
-      } else {
-        setMessage(`Hi Ilanil Infotech, I would like to inquire about: ${initialSubject}.\n\nProject details: `);
-      }
-    }
-  }, [initialSubject, language]);
+  const subjectText = initialSubject 
+    ? (language === 'ta' ? `இளநிலா மென்பொருள் தேவை: ${initialSubject}` : `Software Project Inquiry: ${initialSubject}`)
+    : (language === 'ta' ? 'இளநிலா புதிய மென்பொருள் திட்டம்' : 'Software Project Inquiry with Ilanil Infotech');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name.trim()) {
-      setError(language === 'ta' ? 'தயவுசெய்து உங்கள் பெயரை உள்ளிடவும்.' : 'Please provide your name.');
-      return;
-    }
-    if (!email.trim() || (!email.includes('@') && email.length < 8)) {
-      setError(language === 'ta' ? 'சரியான மின்னஞ்சல் (Email) அல்லது மொபைல் எண்ணை உள்ளிடவும்.' : 'Please provide a valid email or phone number.');
-      return;
-    }
-    if (!message.trim()) {
-      setError(language === 'ta' ? 'உங்கள் மென்பொருள் தேவை பற்றி சுருக்கமாக எழுதவும்.' : 'Please provide a brief description of your project.');
-      return;
-    }
+  const bodyText = language === 'ta'
+    ? `வணக்கம் இளநிலா இன்போடெக்,\n\nஎனது மென்பொருள் தேவை குறித்த விவரங்கள்:\n- வணிகம் / நிறுவனம்:\n- தேவையான மென்பொருள் வகை (Web / Mobile / Cloud / AI):\n- திட்ட விவரங்கள்:\n- தொடர்பு எண்:\n\nநன்றி.`
+    : `Hi Ilanil Infotech team,\n\nI would like to discuss our software requirements:\n- Company / Business Name:\n- Software Type (Web / Mobile / Cloud / AI):\n- Project Summary:\n- Phone / WhatsApp:\n\nLooking forward to hearing from you.`;
 
-    setError('');
-    setSubmitted(true);
-  };
+  const mailtoUrl = `mailto:${COMPANY_INFO.email}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
 
-  const handleReset = () => {
-    setName('');
-    setEmail('');
-    setMessage('');
-    setSubmitted(false);
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(COMPANY_INFO.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      // Fallback
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }
   };
 
   return (
-    <section id="contact" className="py-20 border-t border-emerald-100/60 bg-[#f4faf6]">
-      <div className="max-w-4xl mx-auto px-6">
-        <div className="text-center max-w-xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider text-emerald-700 uppercase mb-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+    <section id="contact" className="py-20 sm:py-24 relative z-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        {/* Section Header */}
+        <div className="text-center max-w-xl mx-auto mb-10">
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold tracking-wider text-[#52796f] uppercase mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#52796f]"></span>
             <span>{language === 'ta' ? 'நேரடி தொடர்பு' : 'Get in Touch'}</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight [text-wrap:balance]">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1e293b] tracking-tight [text-wrap:balance]">
             {language === 'ta'
               ? 'உங்கள் மென்பொருள் திட்டம் பற்றி பேசலாம்.'
               : 'Let’s discuss your software project.'}
           </h2>
-          <p className="text-sm text-slate-600 mt-3 leading-relaxed">
+          <p className="text-sm text-[#475569] mt-3 leading-relaxed">
             {language === 'ta'
-              ? 'மின்னஞ்சல் மூலமாகவோ அல்லது கீழேயுள்ள படிவம் மூலமாகவோ தொடர்பு கொள்ளலாம். உங்கள் தேவைகளை ஆய்வு செய்து விரைவில் பதிலளிக்கிறோம்.'
-              : 'Reach out directly via email or submit the form below. We will review your requirements and respond promptly.'}
+              ? 'உங்கள் திட்டத்தின் நோக்கங்கள் அல்லது தொழில்நுட்ப கேள்விகளை நேரடியாக எங்கள் மின்னஞ்சலுக்கு அனுப்பலாம். நாங்கள் உங்களை விரைவில் தொடர்பு கொள்கிறோம்.'
+              : 'Connect directly with our software engineering team via email. Share your project requirements and we will review your architecture promptly.'}
           </p>
+        </div>
 
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-emerald-200/80 text-sm text-slate-700 shadow-xs">
-              <Mail className="w-4 h-4 text-emerald-600 shrink-0" />
+        {/* 3D Glass Contact Showcase Card */}
+        <div className="max-w-2xl mx-auto perspective-1200">
+          <VisionGlassCard
+            tiltIntensity={12}
+            glare={true}
+            className="p-8 sm:p-12 text-center"
+          >
+            {/* Suspended 3D Floating Status Badge */}
+            <div className="inline-block mb-6 preserve-3d">
+              <FloatingBadge
+                depthZ={48}
+                variant="eucalyptus"
+                icon={<Mail className="w-3.5 h-3.5 text-[#52796f]" />}
+              >
+                {language === 'ta' ? 'நேரடி மின்னஞ்சல் தொடர்பு' : 'Direct Email Consultation'}
+              </FloatingBadge>
+            </div>
+
+            {/* Email Address Display Tile */}
+            <div 
+              className="p-6 sm:p-7 rounded-3xl mb-8 preserve-3d"
+              style={{
+                transform: 'translateZ(36px)',
+                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.35) 100%)',
+                backdropFilter: 'blur(22px) saturate(190%)',
+                WebkitBackdropFilter: 'blur(22px) saturate(190%)',
+                borderTop: '2px solid rgba(255, 255, 255, 0.98)',
+                borderLeft: '1.5px solid rgba(255, 255, 255, 0.7)',
+                borderRight: '1px solid rgba(255, 255, 255, 0.35)',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.25)',
+                boxShadow: 'inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.98), 0 16px 36px -8px rgba(47, 62, 70, 0.12)',
+              }}
+            >
+              <span className="text-[11px] font-semibold text-[#52796f] uppercase tracking-wider block mb-2">
+                {language === 'ta' ? 'அதிகாரப்பூர்வ மின்னஞ்சல் முகவரி' : 'Official Email Address'}
+              </span>
+
               <a
-                href={`mailto:${COMPANY_INFO.email}`}
-                className="text-emerald-950 hover:text-emerald-700 font-semibold transition-colors"
+                href={mailtoUrl}
+                className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#1e293b] hover:text-[#52796f] transition-colors break-all tracking-tight block select-all font-mono"
               >
                 {COMPANY_INFO.email}
               </a>
-            </div>
 
-            <div className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-emerald-200/80 text-xs text-slate-700 shadow-xs">
-              <MapPin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-              <span>{COMPANY_INFO.location}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl border border-emerald-100 p-7 sm:p-9 max-w-2xl mx-auto shadow-xl shadow-emerald-900/5">
-          {submitted ? (
-            <div className="py-8 text-center space-y-4">
-              <div className="w-12 h-12 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-700 mx-auto">
-                <CheckCircle2 className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900">
-                {language === 'ta' ? 'தகவல் வெற்றிகரமாக பெறப்பட்டது!' : 'Inquiry Received Successfully'}
-              </h3>
-              <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-                {language === 'ta' ? (
-                  <>நன்றி, <strong className="text-emerald-950">{name}</strong>. உங்கள் திட்டம் குறித்த விவரங்கள் எங்களது மின்னஞ்சலுக்கு ({COMPANY_INFO.email}) அனுப்பப்பட்டுள்ளது. விரைவில் உங்களைத் தொடர்பு கொள்கிறோம்.</>
-                ) : (
-                  <>Thank you, <strong className="text-emerald-950">{name}</strong>. Your inquiry has been routed to <span className="text-emerald-700 font-medium">{COMPANY_INFO.email}</span>. We will get back to you shortly.</>
-                )}
-              </p>
-              <div className="pt-3">
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="px-5 py-2.5 text-xs font-semibold text-emerald-950 hover:bg-emerald-50 bg-slate-100 rounded-xl transition-colors"
-                >
-                  {language === 'ta' ? 'மற்றொரு செய்தி அனுப்ப' : 'Send Another Message'}
-                </button>
-              </div>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {error && (
-                <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700">
-                  {error}
+              {/* Subject Pill Indicator if a service was clicked */}
+              {initialSubject && (
+                <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs bg-[#52796f]/10 text-[#2f3e46] border border-[#52796f]/20">
+                  <span className="font-semibold">{language === 'ta' ? 'தேர்வு செய்த சேவை:' : 'Inquiry for:'}</span>
+                  <span>{initialSubject}</span>
                 </div>
               )}
+            </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                  {language === 'ta' ? 'உங்கள் பெயர் *' : 'Your Name *'}
-                </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder={language === 'ta' ? 'எ.கா. செந்தில் குமார்' : 'e.g. Senthil Kumar'}
-                  className="w-full px-4 py-3 bg-[#fafdfb] border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                  {language === 'ta' ? 'மின்னஞ்சல் அல்லது தொடர்பு எண் *' : 'Email or Contact *'}
-                </label>
-                <input
-                  type="text"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={language === 'ta' ? 'எ.கா. yourname@gmail.com அல்லது 9876543210' : 'e.g. name@company.com or phone'}
-                  className="w-full px-4 py-3 bg-[#fafdfb] border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                  {language === 'ta' ? 'திட்ட விவரங்கள் *' : 'Project Requirements *'}
-                </label>
-                <textarea
-                  rows={4}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder={language === 'ta'
-                    ? 'நீங்கள் உருவாக்க விரும்பும் மென்பொருள் அல்லது செயலி பற்றி குறிப்பிடவும் (எ.கா. வாடிக்கையாளர் பில்லிங் வெப்சைட், டெலிவரி ஆப், அல்லது AI ஆட்டோமேஷன்)...'
-                    : 'Tell us what you would like to build (e.g. web application, mobile app, billing software, or AI automation)...'}
-                  className="w-full px-4 py-3 bg-[#fafdfb] border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
-                />
-              </div>
+            {/* Action Buttons with Precision Cut-Glass Edges */}
+            <div 
+              className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-10 preserve-3d"
+              style={{ transform: 'translateZ(38px)' }}
+            >
+              <a
+                href={mailtoUrl}
+                className="vision-btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 text-xs sm:text-sm font-semibold rounded-2xl whitespace-nowrap shadow-md group"
+              >
+                <ExternalLink className="w-4 h-4 text-[#b7e4c7] group-hover:scale-110 transition-transform" />
+                <span>{language === 'ta' ? 'மின்னஞ்சல் செயலியைத் திறக்க' : 'Launch Email Client'}</span>
+              </a>
 
               <button
-                type="submit"
-                className="w-full py-3.5 px-4 text-xs font-semibold text-white bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-600 rounded-xl hover:opacity-95 transition-all flex items-center justify-center gap-2 shadow-sm shadow-emerald-600/20 active:scale-[0.99]"
+                type="button"
+                onClick={handleCopyEmail}
+                className="vision-btn-glass w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 text-xs sm:text-sm font-semibold rounded-2xl whitespace-nowrap"
               >
-                <Send className="w-4 h-4" />
-                <span>{language === 'ta' ? 'செய்தி அனுப்ப' : 'Send Message'}</span>
+                {copied ? (
+                  <>
+                    <Check className="w-4 h-4 text-[#52796f]" />
+                    <span className="text-[#52796f] font-bold">
+                      {language === 'ta' ? 'நகலெடுக்கப்பட்டது!' : 'Copied to Clipboard!'}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4 text-[#52796f]" />
+                    <span>{language === 'ta' ? 'மின்னஞ்சலை நகலெடுக்க' : 'Copy Email Address'}</span>
+                  </>
+                )}
               </button>
+            </div>
 
-              <div className="text-center pt-2">
-                <span className="text-[11px] text-slate-500">
-                  {language === 'ta' ? 'நேரடியாக மின்னஞ்சல் அனுப்ப: ' : 'Or email directly to '}
-                  <a href={`mailto:${COMPANY_INFO.email}`} className="text-emerald-700 hover:underline font-medium">
-                    {COMPANY_INFO.email}
-                  </a>
+            {/* 3 Frosted Glass Direct Pillars */}
+            <div 
+              className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-6 border-t border-white/60 text-left text-xs preserve-3d"
+              style={{ transform: 'translateZ(26px)' }}
+            >
+              <div 
+                className="p-3.5 rounded-2xl"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.58) 0%, rgba(255, 255, 255, 0.25) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  borderTop: '1.5px solid rgba(255, 255, 255, 0.98)',
+                  borderLeft: '1px solid rgba(255, 255, 255, 0.6)',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+                  boxShadow: 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.95), 0 6px 16px rgba(47, 62, 70, 0.05)',
+                }}
+              >
+                <MessageSquare className="w-4 h-4 text-[#52796f] mb-1.5" />
+                <span className="font-bold text-[#1e293b] block mb-0.5">
+                  {language === 'ta' ? 'நேரடி ஆலோசனை' : 'Direct Architects'}
+                </span>
+                <span className="text-[11px] text-[#475569] leading-snug block">
+                  {language === 'ta' ? 'தமிழ் & ஆங்கிலத்தில் நேரடி உதவி.' : 'Direct discussion with lead engineers.'}
                 </span>
               </div>
-            </form>
-          )}
+
+              <div 
+                className="p-3.5 rounded-2xl"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.58) 0%, rgba(255, 255, 255, 0.25) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  borderTop: '1.5px solid rgba(255, 255, 255, 0.98)',
+                  borderLeft: '1px solid rgba(255, 255, 255, 0.6)',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+                  boxShadow: 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.95), 0 6px 16px rgba(47, 62, 70, 0.05)',
+                }}
+              >
+                <Clock className="w-4 h-4 text-[#52796f] mb-1.5" />
+                <span className="font-bold text-[#1e293b] block mb-0.5">
+                  {language === 'ta' ? 'விரைவான பதில்' : 'Prompt Review'}
+                </span>
+                <span className="text-[11px] text-[#475569] leading-snug block">
+                  {language === 'ta' ? 'உங்கள் தேவைக்கேற்ப விரிவான ஆய்வு.' : 'Swift architecture and quote evaluation.'}
+                </span>
+              </div>
+
+              <div 
+                className="p-3.5 rounded-2xl"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.58) 0%, rgba(255, 255, 255, 0.25) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  borderTop: '1.5px solid rgba(255, 255, 255, 0.98)',
+                  borderLeft: '1px solid rgba(255, 255, 255, 0.6)',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.3)',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+                  boxShadow: 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.95), 0 6px 16px rgba(47, 62, 70, 0.05)',
+                }}
+              >
+                <MapPin className="w-4 h-4 text-[#52796f] mb-1.5" />
+                <span className="font-bold text-[#1e293b] block mb-0.5">
+                  {language === 'ta' ? 'தமிழ்நாடு, இந்தியா' : 'Tamil Nadu, India'}
+                </span>
+                <span className="text-[11px] text-[#475569] leading-snug block">
+                  {language === 'ta' ? 'உள்ளூர் ஆதரவு & உலகளாவிய மென்பொருள்.' : 'Regional presence with global deployment.'}
+                </span>
+              </div>
+            </div>
+          </VisionGlassCard>
         </div>
       </div>
     </section>

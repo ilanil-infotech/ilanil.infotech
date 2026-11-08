@@ -11,6 +11,7 @@ import { TamilNaduSolutions } from './components/TamilNaduSolutions';
 import { WhyChooseUs } from './components/WhyChooseUs';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { LiquidMeshBackground } from './components/LiquidMeshBackground';
 
 export default function App() {
   const [language, setLanguage] = useState<'en' | 'ta'>('en');
@@ -33,22 +34,29 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafdfb] text-slate-800 flex flex-col font-sans selection:bg-emerald-600 selection:text-white">
-      {/* Header with Ilanil Logo and Bilingual English / தமிழ் Toggle */}
+    <div className="min-h-screen bg-[#f2f6f3] text-[#1e293b] flex flex-col font-sans selection:bg-[#52796f] selection:text-white relative overflow-x-hidden">
+      {/* 
+        Animated flowing liquid/aurora mesh blobs in soft sage and mineral greens:
+        #a3c4b2, #84a98c, #b7e4c7, #52796f (strictly no neon).
+        Renders underneath all translucent frosted glass cards to provide physical refraction.
+      */}
+      <LiquidMeshBackground />
+
+      {/* Apple VisionOS Floating Pill Header */}
       <Header
         language={language}
         onToggleLanguage={toggleLanguage}
         onContactClick={scrollToContact}
       />
 
-      <main className="flex-1">
-        {/* Hero with 'A new light in technology' Nature-Tech Aesthetic */}
+      <main className="flex-1 relative z-10">
+        {/* Hero with 3D VisionOS Glass & Multi-Layer Parallax */}
         <Hero
           language={language}
           onContactClick={scrollToContact}
         />
 
-        {/* 4 Core Engineering Services */}
+        {/* 4 Core Engineering Services in 3D Frosted Glass Cards */}
         <ServicesSection
           language={language}
           onSelectService={handleSelectService}
@@ -63,14 +71,14 @@ export default function App() {
         {/* Why Choose Us & Trust Pillars */}
         <WhyChooseUs language={language} />
 
-        {/* Straightforward Contact Form & Direct Email */}
+        {/* VisionOS Frosted Glass Contact Hub */}
         <ContactSection
           language={language}
           initialSubject={selectedService}
         />
       </main>
 
-      {/* Deep Botanical Nature-Tech Footer */}
+      {/* Deep Eucalyptus Slate Architectural Footer */}
       <Footer language={language} />
     </div>
   );
